@@ -1,0 +1,43 @@
+@keyframes pulse-scale {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+  }
+  
+  @keyframes pulse-opacity {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.8;
+    }
+  }
+  
+  @keyframes pulse-bg {
+    0%, 100% {
+      opacity: 0;
+    }
+    50% {
+      opacity: 0.7;
+    }
+  }
+  
+  .pulse-scale {
+    animation: pulse-scale 2s infinite; 
+    transition: transform 0.75s; 
+  }
+  
+  .pulse-opacity {
+    animation: pulse-opacity 2s infinite; 
+    transition: opacity 0.75s; 
+  }
+  
+  .pulse-bg {
+    animation: pulse-bg 2s infinite; 
+    transition: opacity 0.75s; 
+  }
+
+  

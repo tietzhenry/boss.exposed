@@ -1,0 +1,194 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               String               @id @default(uuid())
+  userCount        Int                  @default(autoincrement())
+  hasPremium       Boolean              @default(false)
+  multiFactorAuth  Boolean              @default(false)
+  ipAdress         String               @default("0.0.0.0")
+  email            String               @unique
+  username         String               @unique
+  alias            String               @default("")
+  password         String
+  mobileProfileViews MobileProfileView[]
+  desktopProfileViews DesktopProfileView[]
+  sessions         Session[]
+  customization    Customization?     
+
+  @@index([id])
+}
+
+model Customization {
+  id              String                @id @default(uuid())
+  userId          String                @unique
+  user            User                  @relation(fields: [userId], references: [id])
+  badges          UserBadges[]
+  socialMediaLinks SocialMediaLink[]
+  assets          Assets?
+  general         GeneralCustomization?
+  color           ColorCustomization?
+  other           OtherCustomization?
+}
+
+model MobileProfileView {
+  id        String   @id @default(uuid())
+  viewedAt  DateTime @default(now())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model DesktopProfileView {
+  id        String   @id @default(uuid())
+  viewedAt  DateTime @default(now())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model Session {
+  id              String          @id @default(uuid())
+  sessionToken    String          @unique
+  createdAt       DateTime        @default(now())
+  expiresAt       DateTime
+  userId          String
+  user            User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model UserBadges {
+  id              String          @id @default(uuid())
+  customization   Customization   @relation(fields: [customizationId], references: [id], onDelete: Cascade)
+  customizationId String
+  badge           Badges
+}
+
+model Assets {
+  id              String          @id @default(uuid())
+  customization   Customization   @relation(fields: [id], references: [id], onDelete: Cascade)
+  backgroundImagePath String          @default("")
+  backgroundVideoPath String          @default("")
+  audioPath          String          @default("")
+  profileAvatarPath  String          @default("")
+  customCursorPath   String          @default("")
+}
+
+model GeneralCustomization {
+  id              String          @id @default(uuid())
+  customization   Customization   @relation(fields: [id], references: [id], onDelete: Cascade)
+  description     String          @default("")
+  discordPresence Boolean         @default(false)
+  backgroundEffects BackgroundEffects @default(none)
+  usernameEffects UsernameEffects @default(none)
+  profileOpacity  Int             @default(50)
+  profileBlur     Int             @default(10)
+  swapBoxColors   Boolean         @default(false)
+  socialGlow      Boolean         @default(true)
+  usernameGlow    Boolean         @default(true)
+  badgeGlow       Boolean         @default(true)
+}
+
+model ColorCustomization {
+  id              String          @id @default(uuid())
+  customization   Customization   @relation(fields: [id], references: [id], onDelete: Cascade)
+  accentColor     String          @default("1b1b1b")
+  textColor       String          @default("FFFFFF")
+  backgroundColor String          @default("080808")
+  iconColor       String          @default("FFFFFF")
+  profileGradient Boolean         @default(false)
+  primaryColor    String          @default("f97316")
+  secondaryColor  String          @default("f5f5f4")
+}
+
+model OtherCustomization {
+  id              String          @id @default(uuid())
+  customization   Customization   @relation(fields: [id], references: [id], onDelete: Cascade)
+  monochromeIcons Boolean         @default(true)
+  animatedTitle   Boolean         @default(false)
+  volumeControl   Boolean         @default(false)
+  useDiscordAvatar Boolean        @default(false)
+}
+
+model SocialMediaLink {
+  id              String          @id @default(uuid())
+  customization   Customization   @relation(fields: [customizationId], references: [id], onDelete: Cascade)
+  customizationId String
+  platform        Links
+  url             String          @default("")
+}
+
+enum Badges {
+  none
+  staff
+  premium
+  verified
+  donor 
+  og
+  serverBooster 
+  winner
+  secondPlace
+  thirdPlace
+  imageHost
+  bugHunter
+}
+
+enum BackgroundEffects {
+  none
+  snowflakes
+  rain
+  blurredBackground
+  nightTime
+  oldTv
+}
+
+enum UsernameEffects {
+  none
+  rainbow
+  blackSparkles
+  blueSparkles
+  greenSparkles
+  pinkSparkles
+  redSparkles
+  whiteSparkles
+  yellowSparkles
+  typewriter
+}
+
+enum Links {
+  snapchat
+  youtube
+  discord
+  spotify
+  instagram
+  twitter
+  tiktok
+  telegram
+  soundcloud
+  paypal
+  github
+  roblox
+  cashapp
+  gitlab
+  twitch
+  reddit
+  namemc
+  onlyfans
+  linkedin
+  steam
+  kick
+  pinterest
+  lastfm
+  buymeacoffee
+  kofi
+  facebook
+  bitcoin
+  ethereum
+  litecoin  
+  monero
+  email
+  customurl
+}
