@@ -1,5 +1,5 @@
 import SignUpForm from '@/components/auth/signup'
-import NavigationBar from '@/components/navigation/navigationbar'
+import NavigationBar from '@/components/navigation/NavigationBar'
 import { GridProvider } from '@/components/providers/grid-provider'
 import { rpc } from '@/lib/rpc'
 import { setCookies } from '@/utils/server'

@@ -3,12 +3,13 @@ import { Layers, House, DraftingCompass, Nfc } from "lucide-react";
 import SignInButton from "./clientcomponents/SignInButton";
 import SignUpButton from "./clientcomponents/SignUpButton";
 import SignOutButton from "./clientcomponents/SignOutButton";
-import "./NavigationBar.css";
 import { rpc } from "@/lib/rpc";
 import { setCookies } from "@/utils/server";
+import "./NavigationBar.css";
+
 
 const NavigationBar = async () => {
-  const { data: session, error: invalidSession } = await rpc.api.session.current.get(setCookies());
+  const { data: session, error: invalidSession } = await rpc.api.user.current.get();
   return (
     <nav className="relative overflow-hidden p-4 shadow-md">
       <div className="absolute -right-12 -top-12 h-48 w-48 rounded-full bg-primary/20 blur-3xl" />

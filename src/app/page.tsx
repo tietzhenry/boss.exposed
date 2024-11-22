@@ -1,4 +1,4 @@
-import NavigationBar from "@/components/navigation/navigationbar";
+import NavigationBar from "@/components/navigation/NavigationBar";
 import React from "react";
 
 const page = () => {

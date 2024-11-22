@@ -1,5 +1,5 @@
 import SignInForm from "@/components/auth/signin";
-import NavigationBar from "@/components/navigation/navigationbar";
+import NavigationBar from "@/components/navigation/NavigationBar";
 import { rpc } from "@/lib/rpc";
 import { setCookies } from "@/utils/server";
 import { redirect } from "next/navigation";
